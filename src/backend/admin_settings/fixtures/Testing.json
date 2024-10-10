@@ -1,0 +1,192 @@
+[
+  {
+    "model": "admin_settings.case",
+    "pk": 11,
+    "fields": {
+      "employee": 3,
+      "accused": 2,
+      "victim": 1,
+      "court": 1,
+      "user": 2,
+      "title": "Employee Harassment Case",
+      "description": "Allegations of workplace harassment against an employee.",
+      "previous_hearing_date": "2023-11-01",
+      "next_hearing_date": "2023-12-01",
+      "next_hearing_time": "14:30:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 12,
+    "fields": {
+      "employee": 4,
+      "accused": 2,
+      "victim": 1,
+      "court": 2,
+      "user": 2,
+      "title": "Fraud Investigation",
+      "description": "Investigation into fraudulent activities within the organization.",
+      "previous_hearing_date": "2023-11-15",
+      "next_hearing_date": "2023-12-15",
+      "next_hearing_time": "16:00:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 3,
+    "fields": {
+      "employee": 3,
+      "accused": 1,
+      "victim": 2,
+      "court": 3,
+      "user": 3,
+      "title": "Contract Dispute",
+      "description": "Dispute over contractual terms and obligations.",
+      "previous_hearing_date": "2023-11-10",
+      "next_hearing_date": "2023-12-10",
+      "next_hearing_time": "15:30:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 4,
+    "fields": {
+      "employee": 4,
+      "accused": 2,
+      "victim": 1,
+      "court": 1,
+      "user": 2,
+      "title": "Workplace Accident",
+      "description": "Investigation into a workplace accident.",
+      "previous_hearing_date": "2023-11-05",
+      "next_hearing_date": "2023-12-05",
+      "next_hearing_time": "14:00:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 5,
+    "fields": {
+      "employee": 4,
+      "accused": 1,
+      "victim": 2,
+      "court": 2,
+      "user": 3,
+      "title": "Intellectual Property Dispute",
+      "description": "Dispute over intellectual property rights.",
+      "previous_hearing_date": "2023-11-20",
+      "next_hearing_date": "2023-12-20",
+      "next_hearing_time": "16:30:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 6,
+    "fields": {
+      "employee": 3,
+      "accused": 2,
+      "victim": 1,
+      "court": 3,
+      "user": 3,
+      "title": "Product Liability",
+      "description": "Investigation into product liability claims.",
+      "previous_hearing_date": "2023-11-25",
+      "next_hearing_date": "2023-12-25",
+      "next_hearing_time": "14:45:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 7,
+    "fields": {
+      "employee": 4,
+      "accused": 2,
+      "victim": 1,
+      "court": 1,
+      "user": 3,
+      "title": "Contract Termination",
+      "description": "Legal issues surrounding the termination of a contract.",
+      "previous_hearing_date": "2023-11-08",
+      "next_hearing_date": "2023-12-08",
+      "next_hearing_time": "15:00:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 8,
+    "fields": {
+      "employee": 3,
+      "accused": 1,
+      "victim": 2,
+      "court": 2,
+      "user": 3,
+      "title": "Data Breach Investigation",
+      "description": "Investigation into a data breach and cybersecurity incident.",
+      "previous_hearing_date": "2023-11-12",
+      "next_hearing_date": "2023-12-12",
+      "next_hearing_time": "16:15:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 9,
+    "fields": {
+      "employee": 4,
+      "accused": 2,
+      "victim": 1,
+      "court": 3,
+      "user": 2,
+      "title": "Wrongful Termination",
+      "description": "Allegations of wrongful termination by an employee.",
+      "previous_hearing_date": "2023-11-18",
+      "next_hearing_date": "2023-12-18",
+      "next_hearing_time": "14:15:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  },
+  {
+    "model": "admin_settings.case",
+    "pk": 10,
+    "fields": {
+      "employee": 4,
+      "accused": 1,
+      "victim": 2,
+      "court": 1,
+      "user": 2,
+      "title": "Corporate Espionage",
+      "description": "Investigation into allegations of corporate espionage.",
+      "previous_hearing_date": "2023-11-22",
+      "next_hearing_date": "2023-12-22",
+      "next_hearing_time": "15:45:00",
+      "is_active": true,
+      "created_at": "2020-08-26T10:33:28.125Z",
+      "modified_at": "2020-08-26T10:33:28.125Z"
+    }
+  }
+]
