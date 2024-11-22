@@ -1,8 +1,7 @@
 import logging
 import os
 import os.path
-
-# Sending Email
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -10,7 +9,14 @@ from django.utils.html import strip_tags
 logger = logging.getLogger(__name__)
 
 
-def send(to, subject, html_body, text_body=None, attachments=[], from_email=None, cc=None, bcc=None, smtp_config=None):
+def send(to, subject, html_body, text_body=None, attachments=[], from_email=None, cc=None, bcc=None):
+    smtp_config = {
+        "host": settings.EMAIL_HOST,
+        "port": settings.EMAIL_PORT,
+        "user": settings.EMAIL_HOST_USER,
+        "password": settings.EMAIL_HOST_PASSWORD,
+        "use_tls": settings.EMAIL_USE_TLS,
+    }
 
     if smtp_config:
         connection = get_connection(
@@ -18,6 +24,7 @@ def send(to, subject, html_body, text_body=None, attachments=[], from_email=None
             port=smtp_config['port'],
             username=smtp_config['user'],
             password=smtp_config['password'],
+            use_tls=smtp_config['use_tls'],
             # use_tls=True  # You may need to adjust this based on your SMTP server
         )
     else:

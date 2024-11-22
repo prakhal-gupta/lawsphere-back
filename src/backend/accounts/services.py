@@ -16,6 +16,7 @@ from ..admin_settings.models import Court, Employee
 from ..admin_settings.serializers import CourtDataSerializer, CourtSerializer, EmployeeSerializer
 from ..base import response
 from ..base.utils.email import send_from_template
+from ..customer.models import Customer
 
 User = namedtuple('User', ['email', 'password'])
 
@@ -49,6 +50,16 @@ def employee_auth_data(request, user):
         "access": token.get('access'),
         "user": UserSerializer(instance=user, context={'request': request}).data,
         "court": CourtDataSerializer(courts, many=True).data
+    }
+    return auth_data
+
+def customer_auth_data(request, user):
+    token = get_tokens_for_user(user)
+    login(request, user)
+    auth_data = {
+        "refresh": token.get('refresh'),
+        "access": token.get('access'),
+        "user": UserSerializer(instance=user, context={'request': request}).data,
     }
     return auth_data
 
@@ -116,40 +127,40 @@ def auth_login_employee(request):
                 return response.BadRequest({'detail': 'Incorrect Email and Password.'})
     else:
         return response.BadRequest({'detail': 'Must Include username and password.'})
-#
-#
-# def auth_login_customer(request):
-#     """
-#     params: request
-#     return: token, password
-#     """
-#     data, auth_data = parse_auth_login_data(request.data), None
-#     username, password = data.get('username'), data.get('password')
-#     if username and password:
-#         user, email_user, mobile_user, username_user = get_user_from_email_or_mobile_or_employee_code(username)
-#         if not user:
-#             return response.BadRequest({'detail': 'User does not exists.'})
-#         if user.is_separated:
-#             return response.BadRequest({'detail': 'User has been separated'})
-#         if user.check_password(password):
-#             if not user.is_active:
-#                 return response.BadRequest({'detail': 'User account is disabled.'})
-#             customer_query = Customer.objects.filter(user=user.pk, is_active=True)
-#             if not customer_query.exists():
-#                 return response.BadRequest({'detail': "You are not a customer of any court!"})
-#             if customer_query.count() == 1 and customer_query.first().is_disabled:
-#                 return response.BadRequest({'detail': 'Customer dashboard is disabled.'})
-#             auth_data = customer_auth_data(request, user)
-#             return response.Ok(auth_data)
-#         else:
-#             if username_user:
-#                 return response.BadRequest({'detail': 'Incorrect username and password.'})
-#             elif mobile_user:
-#                 return response.BadRequest({'detail': 'Incorrect Mobile Number and password.'})
-#             else:
-#                 return response.BadRequest({'detail': 'Incorrect Email and Password.'})
-#     else:
-#         return response.BadRequest({'detail': 'Must Include username and password.'})
+
+
+def auth_login_customer(request):
+    """
+    params: request
+    return: token, password
+    """
+    data, auth_data = parse_auth_login_data(request.data), None
+    username, password = data.get('username'), data.get('password')
+    if username and password:
+        user, email_user, mobile_user, username_user = get_user_from_email_or_mobile_or_employee_code(username)
+        if not user:
+            return response.BadRequest({'detail': 'User does not exists.'})
+        if user.is_separated:
+            return response.BadRequest({'detail': 'User has been separated'})
+        if user.check_password(password):
+            if not user.is_active:
+                return response.BadRequest({'detail': 'User account is disabled.'})
+            customer_query = Customer.objects.filter(user=user.pk, is_active=True)
+            if not customer_query.exists():
+                return response.BadRequest({'detail': "You are not a customer of any court!"})
+            if customer_query.count() == 1 and customer_query.first().is_disabled:
+                return response.BadRequest({'detail': 'Customer dashboard is disabled.'})
+            auth_data = customer_auth_data(request, user)
+            return response.Ok(auth_data)
+        else:
+            if username_user:
+                return response.BadRequest({'detail': 'Incorrect username and password.'})
+            elif mobile_user:
+                return response.BadRequest({'detail': 'Incorrect Mobile Number and password.'})
+            else:
+                return response.BadRequest({'detail': 'Incorrect Email and Password.'})
+    else:
+        return response.BadRequest({'detail': 'Must Include username and password.'})
 
 
 def auth_login_superuser(request):

@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 from .models import User
 from ..base.serializers import ModelSerializer
+from ..customer.models import Customer
 
 
 class UserSerializer(ModelSerializer):
@@ -24,8 +25,7 @@ class UserSerializer(ModelSerializer):
 class UserBasicDataSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'middle_name', 'last_name', 'email', 'username', 'mobile', 'dob',
-                  'personal_storage', 'is_active')
+        fields = ('id', 'first_name', 'middle_name', 'last_name', 'email', 'username', 'mobile', 'dob', 'is_active')
 
 
 class LoginSerializer(serializers.Serializer):
@@ -94,3 +94,30 @@ class PasswordResetSerializer(serializers.Serializer):
                         'null': 'Please enter a valid mobile'})
     is_employee = serializers.BooleanField(required=False)
 
+
+class CustomerRegistrationSerializer(ModelSerializer):
+    user_data = serializers.SerializerMethodField(required=False)
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
+    def validate(self, data):
+        aadhar_no = data.get('aadhar_no', None)
+        email = data.get('email', None)
+        if aadhar_no:
+            if Customer.objects.filter(aadhar_no=aadhar_no, is_active=True).exists():
+                raise serializers.ValidationError({"aadhar_no": "A user with this Aadhar number already exists."})
+        if email:
+            if Customer.objects.filter(email=email, is_active=True).exists():
+                raise serializers.ValidationError({"email": "A user with this email already exists."})
+        return data
+
+    def create(self, validated_data):
+        instance = Customer.objects.create(**validated_data)
+        instance.save()
+        return instance
+
+    @staticmethod
+    def get_user_data(obj):
+        return UserBasicDataSerializer(obj.user).data if obj.user else None

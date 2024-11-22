@@ -1,25 +1,14 @@
-import datetime
-import requests
-from decouple import config
-import google.auth.transport.requests
-
-from django.conf import settings
-from django.db.models import Sum, Q, FloatField
+from django.db.models import Q
 from rest_framework import serializers
-from django.forms.models import model_to_dict
-
-from .constants import TRANSACTION_SUCCESS, TRANSACTION_PROCESSING, TRANSACTION_FAILED, CORE_SERVICES, PROFESSION
+from .constants import CORE_SERVICES
 from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, CsvPdfReports, \
-    DescriptionTemplate, EmployeePermissions, Documents, Customer, Case
+    DescriptionTemplate, EmployeePermissions, Documents
 from .services import delete_child, get_presigned_url, employee_photo_path, create_update_s3_record
-
-from ..accounts.serializers import UserBasicDataSerializer, UserSerializer
-from ..accounts.models import User
-
+from ..accounts.serializers import UserBasicDataSerializer
 from ..base.serializers import ModelSerializer
-from ..base.services import gb_to_bytes, bytes_to_mb, create_update_record, create_update_manytomany_record
+from ..base.services import create_update_manytomany_record
 from ..base.utils.email import send_from_template
-from ..base.utils.timezone import localtime, now_local
+
 
 
 class UploadedDocumentSerializer(ModelSerializer):
@@ -384,42 +373,3 @@ class DescriptionTemplateSerializer(ModelSerializer):
     @staticmethod
     def get_is_core(obj):
         return obj.service.name == CORE_SERVICES
-
-
-class CustomerSerializer(ModelSerializer):
-
-    class Meta:
-        model = Customer
-        fields = '__all__'
-
-
-class CaseSerializer(ModelSerializer):
-    user_data = serializers.SerializerMethodField(required=False)
-    victim_data = serializers.SerializerMethodField(required=False)
-    accused_data = serializers.SerializerMethodField(required=False)
-    court_data = serializers.SerializerMethodField(required=False)
-    employee_data = serializers.SerializerMethodField(required=False)
-
-    class Meta:
-        model = Case
-        fields = '__all__'
-
-    @staticmethod
-    def get_court_data(obj):
-        return CourtBasicDataSerializer(obj.court).data if obj.court else None
-
-    @staticmethod
-    def get_victim_data(obj):
-        return CustomerSerializer(obj.victim).data if obj.victim else None
-
-    @staticmethod
-    def get_accused_data(obj):
-        return CustomerSerializer(obj.accused).data if obj.accused else None
-
-    @staticmethod
-    def get_employee_data(obj):
-        return EmployeeSerializer(obj.employee).data if obj.employee else None
-
-    @staticmethod
-    def get_user_data(obj):
-        return UserBasicDataSerializer(obj.user).data if obj.user else None

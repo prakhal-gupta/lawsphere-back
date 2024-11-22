@@ -36,3 +36,4 @@ class UserPermissions(ResourcePermission):
     resend_otp_perms = AllowAny()
     verify_otp_perms = AllowAny()
     admin_list_perms = AllowAny()
+    customer_register_perms = AllowAny()

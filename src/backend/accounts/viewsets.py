@@ -15,13 +15,17 @@ from rest_framework.decorators import action
 from .models import PasswordResetCode, OTPLogin
 from .filters import UserBasicFilter
 from .permissions import UserPermissions
-from .serializers import UserSerializer, PasswordResetSerializer, UserBasicDataSerializer
+from .serializers import UserSerializer, PasswordResetSerializer, UserBasicDataSerializer, \
+    CustomerRegistrationSerializer
 from .services import auth_login, auth_password_change, auth_register_user, _parse_data, auth_login_employee, \
     user_clone_api, get_user_from_email_or_mobile_or_employee_code, generate_auth_data
 from ..base import response
 from ..base.api.pagination import StandardResultsSetPagination
 from ..base.api.viewsets import ModelViewSet
 from ..base.serializers import SawaggerResponseSerializer
+from ..base.services import create_update_record
+from ..customer.filters import CustomerFilter
+from ..customer.models import Customer
 from ..employee.services import get_current_court, get_employee_obj
 from ..base.utils.sms import send_sms
 
@@ -346,3 +350,21 @@ class UserViewSet(ModelViewSet):
         if page is not None:
             return self.get_paginated_response(UserBasicDataSerializer(page, many=True).data)
         return response.Ok(UserBasicDataSerializer(queryset, many=True).data)
+
+    @swagger_auto_schema(
+        method="post",
+        operation_summary='Add Customer',
+        operation_description='Add Customer',
+        request_body=CustomerRegistrationSerializer,
+        response=CustomerRegistrationSerializer
+    )
+    @action(methods=[ 'POST'], detail=False, queryset=Customer, filterset_class=CustomerFilter)
+    def customer_register(self, request):
+        data = auth_register_user(request)
+        request_data = request.data.copy()
+        first_name = request_data.get("first_name", "")
+        middle_name = request_data.get("middle_name", "")
+        last_name = request_data.get("last_name", "")
+        request_data["name"] = f"{first_name} {middle_name} {last_name}".strip()
+        request_data["user"] = data["id"]
+        return response.Ok(create_update_record(request_data, CustomerRegistrationSerializer, Customer))

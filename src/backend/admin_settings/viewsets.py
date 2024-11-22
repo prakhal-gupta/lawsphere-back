@@ -1,41 +1,23 @@
 import json
-import base64, requests
-from datetime import datetime
-
-from random import randint
+import base64
 from decouple import config
-from django.db.models import Sum, FloatField
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, JSONParser
 from django.core.files.base import ContentFile
-from drf_yasg import openapi
-
-from .constants import SETTINGS_CONSTANT, OTHER, CORE_SERVICES, NON_CORE_SERVICES, LEAD
+from .constants import SETTINGS_CONSTANT, CORE_SERVICES, NON_CORE_SERVICES
 from .filters import DynamicSettingsFilter, CountryFilter, StateFilter, CityFilter, CourtFilter, EmployeeFilter, \
-    DescriptionTemplateFilter, CaseFilter, CustomerFilter
-from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, CsvPdfReports, \
-    DescriptionTemplate, Case, Customer
+    DescriptionTemplateFilter
+from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, DescriptionTemplate
 from .permissions import DynamicSettingsPermissions, UploadedDocumentPermissions
 from .serializers import DynamicSettingsSerializer, CountrySerializer, StateSerializer, CitySerializer, CourtSerializer, \
-    UploadedDocumentSerializer, CsvPdfReportSerializer, DescriptionTemplateSerializer, CourtBasicDataSerializer, \
-    CourtDataSerializer, DeleteEmployeeSerializer, EmployeeSerializer, CaseSerializer, CustomerSerializer
-from .services import dropdown_tree, create_presigned_url, get_presigned_url, create_new_user
+    UploadedDocumentSerializer, DescriptionTemplateSerializer, CourtBasicDataSerializer, \
+    CourtDataSerializer, DeleteEmployeeSerializer, EmployeeSerializer
+from .services import dropdown_tree, create_new_user
 from ..accounts.filters import UserBasicFilter
-
-from ..accounts.serializers import UserSerializer, UserBasicDataSerializer
-from ..base.serializers import SawaggerResponseSerializer
-from ..base.utils.timezone import now_local
-
-# from ..customer.models import PersonalFiles
-# from ..employee.constants import CREDIT_HISTORY
-# from ..employee.filters import employeePoliciesFilter, TicketFilter, CustomerFilter, TasksFilter
-# from ..employee.models import employeePolicies, Files, Ticket, Customer
-# from ..employee.serializers import employeePoliciesSerializer, CustomerSerializer, TasksSerializer
-# from ..employee.services import array_to_csv, get_current_Court, create_new_user
-
+from ..accounts.serializers import UserSerializer
 from ..base.utils.email import send_from_template
 from ..base import response
 from ..base.api.pagination import StandardResultsSetPagination
@@ -522,70 +504,3 @@ class DynamicSettingsViewSet(ModelViewSet):
             return response.Ok(DescriptionTemplateSerializer(queryset, many=True).data)
         else:
             return response.Ok(create_update_record(request, DescriptionTemplateSerializer, DescriptionTemplate))
-
-    @swagger_auto_schema(
-        method="post",
-        operation_summary='Add Case.',
-        operation_description='Add Case.',
-        request_body=CaseSerializer,
-        response=CaseSerializer
-    )
-    @swagger_auto_schema(
-        method="put",
-        operation_summary='Update Case.',
-        operation_description='.',
-        request_body=CaseSerializer,
-        response=CaseSerializer
-    )
-    @swagger_auto_schema(
-        method="get",
-        operation_summary='List of Cases',
-        operation_description='',
-        response=CaseSerializer
-    )
-    @action(methods=['GET', 'POST', 'PUT'], detail=False, queryset=Case, filterset_class=CaseFilter)
-    def case(self, request):
-        if request.method == "GET":
-            queryset = Case.objects.filter(is_active=True)
-            self.filterset_class = CaseFilter
-            queryset = self.filter_queryset(queryset)
-            page = self.paginate_queryset(queryset)
-            if page is not None:
-                return self.get_paginated_response(CaseSerializer(page, many=True).data)
-            return response.Ok(CaseSerializer(queryset, many=True).data)
-        else:
-            return response.Ok(create_update_record(request, CaseSerializer, Case))
-
-
-    @swagger_auto_schema(
-        method="post",
-        operation_summary='Add Customer.',
-        operation_description='Add Customer.',
-        request_body=CustomerSerializer,
-        response=CustomerSerializer
-    )
-    @swagger_auto_schema(
-        method="put",
-        operation_summary='Update Customer.',
-        operation_description='.',
-        request_body=CustomerSerializer,
-        response=CustomerSerializer
-    )
-    @swagger_auto_schema(
-        method="get",
-        operation_summary='List of Customers',
-        operation_description='',
-        response=CustomerSerializer
-    )
-    @action(methods=['GET', 'POST', 'PUT'], detail=False, queryset=Customer, filterset_class=CustomerFilter)
-    def customer(self, request):
-        if request.method == "GET":
-            queryset = Customer.objects.filter(is_active=True)
-            self.filterset_class = CustomerFilter
-            queryset = self.filter_queryset(queryset)
-            page = self.paginate_queryset(queryset)
-            if page is not None:
-                return self.get_paginated_response(CustomerSerializer(page, many=True).data)
-            return response.Ok(CustomerSerializer(queryset, many=True).data)
-        else:
-            return response.Ok(create_update_record(request, CustomerSerializer, Customer))

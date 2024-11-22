@@ -1,9 +1,6 @@
 import django_filters
 from django.db.models import Q
-
-from .models import DynamicSettings, Country, State, City, Court, Employee, DescriptionTemplate, Case, Customer
-from ..base.utils.timezone import now_local
-
+from .models import DynamicSettings, Country, State, City, Court, Employee, DescriptionTemplate
 
 class DynamicSettingsFilter(django_filters.FilterSet):
     parents = django_filters.CharFilter(method='parents_filter', lookup_expr='exact')
@@ -119,42 +116,4 @@ class DescriptionTemplateFilter(django_filters.FilterSet):
             'id': ['exact'],
             'service': ['exact'],
             'description': ['exact', 'icontains'],
-        }
-
-
-class CaseFilter(django_filters.FilterSet):
-
-    class Meta:
-        model = Case
-        fields = {
-            'id': ['exact'],
-            'title': ['exact', 'icontains'],
-            'description': ['exact', 'icontains'],
-            'employee': ['exact'],
-            'accused': ['exact'],
-            'victim': ['exact'],
-            'court': ['exact'],
-            'user': ['exact'],
-            'next_hearing_time': ['exact', 'lt', 'lte', 'gt', 'gte'],
-            'previous_hearing_date': ['exact', 'lt', 'lte', 'gt', 'gte'],
-            'next_hearing_date': ['exact', 'lt', 'lte', 'gt', 'gte'],
-            'created_at': ['exact', 'lt', 'lte', 'gt', 'gte']
-        }
-
-
-class CustomerFilter(django_filters.FilterSet):
-
-    class Meta:
-        model = Customer
-        fields = {
-            'id': ['exact'],
-            'first_name': ['exact', 'icontains'],
-            'mobile': ['exact', 'icontains'],
-            'emails': ['exact', 'icontains'],
-            'phone_numbers': ['exact', 'icontains'],
-            'fathers_name': ['exact', 'icontains'],
-            'state': ['exact'],
-            'city': ['exact'],
-            'address': ['exact', 'icontains'],
-            'pincode': ['exact', 'icontains']
         }
