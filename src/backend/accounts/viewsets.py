@@ -18,7 +18,8 @@ from .permissions import UserPermissions
 from .serializers import UserSerializer, PasswordResetSerializer, UserBasicDataSerializer, \
     CustomerRegistrationSerializer
 from .services import auth_login, auth_password_change, auth_register_user, _parse_data, auth_login_employee, \
-    user_clone_api, get_user_from_email_or_mobile_or_employee_code, generate_auth_data
+    user_clone_api, get_user_from_email_or_mobile_or_employee_code, generate_auth_data, customer_user_clone_api, \
+    auth_login_customer
 from ..base import response
 from ..base.api.pagination import StandardResultsSetPagination
 from ..base.api.viewsets import ModelViewSet
@@ -26,6 +27,7 @@ from ..base.serializers import SawaggerResponseSerializer
 from ..base.services import create_update_record
 from ..customer.filters import CustomerFilter
 from ..customer.models import Customer
+from ..customer.services import get_customer_user_obj
 from ..employee.services import get_current_court, get_employee_obj
 from ..base.utils.sms import send_sms
 
@@ -91,23 +93,23 @@ class UserViewSet(ModelViewSet):
     def employee_login(self, request):
         return auth_login_employee(request)
 
-    # @swagger_auto_schema(
-    #     method="post",
-    #     operation_summary='Login',
-    #     operation_description='Post login credential to log in and get a login session token.',
-    #     request_body=openapi.Schema(
-    #         type=openapi.TYPE_OBJECT,
-    #         properties={
-    #             'username': openapi.Schema(type=openapi.TYPE_STRING, description="mobile/email/employee_code"),
-    #             'password': openapi.Schema(type=openapi.TYPE_STRING, description=""),
-    #         }),
-    #     responses={
-    #         200: SawaggerResponseSerializer(data={'message': 'Logged In'}, partial=True)
-    #     }
-    # )
-    # @action(detail=False, methods=['POST'])
-    # def customer_login(self, request):
-    #     return auth_login_customer(request)
+    @swagger_auto_schema(
+        method="post",
+        operation_summary='Login',
+        operation_description='Post login credential to log in and get a login session token.',
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'username': openapi.Schema(type=openapi.TYPE_STRING, description="mobile/email/employee_code"),
+                'password': openapi.Schema(type=openapi.TYPE_STRING, description=""),
+            }),
+        responses={
+            200: SawaggerResponseSerializer(data={'message': 'Logged In'}, partial=True)
+        }
+    )
+    @action(detail=False, methods=['POST'])
+    def customer_login(self, request):
+        return auth_login_customer(request)
 
     @action(methods=['GET'], detail=False)
     def user_clone(self, request):
@@ -121,18 +123,17 @@ class UserViewSet(ModelViewSet):
         employee = get_employee_obj(request.user.pk, court)
         return response.Ok(user_clone_api(request.user, employee))
 
-    #
-    # @action(methods=['GET'], detail=False)
-    # def customer_clone(self, request):
-    #     if not request.user.is_authenticated:
-    #         content = {'detail': 'user is not authenticated'}
-    #         return response.Unauthorized(content)
-    #     if request.user.is_separated:
-    #         content = {'detail': 'user is separated from the system'}
-    #         return response.Unauthorized(content)
-    #     court = get_current_court(request)
-    #     customer = get_customer(request.user.pk, court)
-    #     return response.Ok(customer_clone_api(request.user, customer))
+
+    @action(methods=['GET'], detail=False)
+    def customer_clone(self, request):
+        if not request.user.is_authenticated:
+            content = {'detail': 'user is not authenticated'}
+            return response.Unauthorized(content)
+        if request.user.is_separated:
+            content = {'detail': 'user is separated from the system'}
+            return response.Unauthorized(content)
+        customer = get_customer_user_obj(request.user.pk)
+        return response.Ok(customer_user_clone_api(request.user, customer))
 
     @swagger_auto_schema(
         method="post",

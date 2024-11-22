@@ -17,6 +17,7 @@ from ..admin_settings.serializers import CourtDataSerializer, CourtSerializer, E
 from ..base import response
 from ..base.utils.email import send_from_template
 from ..customer.models import Customer
+from ..customer.serializers import CustomerSerializer
 
 User = namedtuple('User', ['email', 'password'])
 
@@ -147,9 +148,7 @@ def auth_login_customer(request):
                 return response.BadRequest({'detail': 'User account is disabled.'})
             customer_query = Customer.objects.filter(user=user.pk, is_active=True)
             if not customer_query.exists():
-                return response.BadRequest({'detail': "You are not a customer of any court!"})
-            if customer_query.count() == 1 and customer_query.first().is_disabled:
-                return response.BadRequest({'detail': 'Customer dashboard is disabled.'})
+                return response.BadRequest({'detail': "You are not a customer!"})
             auth_data = customer_auth_data(request, user)
             return response.Ok(auth_data)
         else:
@@ -278,3 +277,11 @@ def user_clone_api(user, employee):
         "employee_data": EmployeeSerializer(employee).data if employee else None
     }
     return auth_data
+
+def customer_user_clone_api(user, customer):
+    auth_data = {
+        "user": UserSerializer(instance=user).data,
+        "customer_user_data": CustomerSerializer(customer).data if customer else None
+    }
+    return auth_data
+
