@@ -30,6 +30,11 @@ class Case(TimeStampedModel):
                                 related_name="case_accused")
     victim = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.PROTECT,
                                related_name="case_victim")
+    accused_name = models.CharField(max_length=1024, blank=True, null=True)
+    victim_name = models.CharField(max_length=1024, blank=True, null=True)
+    status = models.CharField(max_length=1024, blank=True, null=True)
+    priority = models.CharField(max_length=1024, blank=True, null=True)
+    case_type = models.CharField(max_length=1024, blank=True, null=True)
     court = models.ForeignKey(Court, blank=True, null=True, on_delete=models.PROTECT)
     user = models.ForeignKey(get_user_model(), blank=True, null=True, on_delete=models.PROTECT,
                              related_name="case_user")
