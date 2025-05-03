@@ -2,7 +2,45 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from ..base.models import TimeStampedModel
-from ..admin_settings.models import State, City, Employee, Court
+from ..admin_settings.models import State, City, Employee, Court, Judge
+
+STATUS_CHOICES = [
+        ("filed", "Case Filed"),
+        ("under_investigation", "Under Investigation"),
+        ("charges_framed", "Charges Framed"),
+        ("trial", "Trial in Progress"),
+        ("awaiting_verdict", "Awaiting Verdict"),
+        ("judgment_pronounced", "Judgment Pronounced"),
+        ("convicted", "Convicted"),
+        ("acquitted", "Acquitted"),
+        ("closed", "Case Closed"),
+        ("appealed", "Appealed to Higher Court"),
+        ("withdrawn", "Withdrawn"),
+        ("settled", "Settled Out of Court"),
+        ("reopened", "Reopened"),
+    ]
+
+PRIORITY_CHOICES = [
+    ("low", "Low"),
+    ("medium", "Medium"),
+    ("high", "High"),
+    ("urgent", "Urgent"),
+]
+
+CASE_TYPE_CHOICES = [
+    ("criminal", "Criminal"),
+    ("civil", "Civil"),
+    ("family", "Family"),
+    ("labour", "Labour"),
+    ("consumer", "Consumer"),
+    ("land_dispute", "Land Dispute"),
+    ("corporate", "Corporate"),
+    ("tax", "Tax"),
+    ("environment", "Environment"),
+    ("constitutional", "Constitutional"),
+    ("cyber", "Cyber Crime"),
+    ("intellectual_property", "Intellectual Property"),
+]
 
 
 class Customer(TimeStampedModel):
@@ -30,11 +68,13 @@ class Case(TimeStampedModel):
                                 related_name="case_accused")
     victim = models.ForeignKey(Customer, blank=True, null=True, on_delete=models.PROTECT,
                                related_name="case_victim")
+    judge = models.ForeignKey(Judge, blank=True, null=True, on_delete=models.PROTECT,
+                               related_name="case_judge")
     accused_name = models.CharField(max_length=1024, blank=True, null=True)
     victim_name = models.CharField(max_length=1024, blank=True, null=True)
-    status = models.CharField(max_length=1024, blank=True, null=True)
-    priority = models.CharField(max_length=1024, blank=True, null=True)
-    case_type = models.CharField(max_length=1024, blank=True, null=True)
+    status = models.CharField(max_length=124, choices=STATUS_CHOICES, default="filed")
+    priority = models.CharField(max_length=128, choices=PRIORITY_CHOICES, default="medium")
+    case_type = models.CharField(max_length=128, choices=CASE_TYPE_CHOICES, default="criminal")
     court = models.ForeignKey(Court, blank=True, null=True, on_delete=models.PROTECT)
     user = models.ForeignKey(get_user_model(), blank=True, null=True, on_delete=models.PROTECT,
                              related_name="case_user")

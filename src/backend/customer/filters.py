@@ -34,7 +34,7 @@ class CaseFilter(django_filters.FilterSet):
             'defender_lawyer': ['exact', 'icontains'],
             'accused_name': ['exact', 'icontains'],
             'victim_name': ['exact', 'icontains'],
-            'status': ['exact'],
+            'status': ['exact', 'icontains'],
             'priority': ['exact'],
             'case_type': ['exact'],
             'employee': ['exact'],
