@@ -139,3 +139,41 @@ class DescriptionTemplate(TimeStampedModel):
     service = models.ForeignKey(DynamicSettings, blank=True, null=True, on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+
+from django.db import models
+
+class Judge(models.Model):
+    GENDER_CHOICES = [
+        ("male", "Male"),
+        ("female", "Female"),
+        ("other", "Other"),
+    ]
+
+    COURT_LEVEL_CHOICES = [
+        ("district", "District Court"),
+        ("sessions", "Sessions Court"),
+        ("high", "High Court"),
+        ("supreme", "Supreme Court"),
+        ("tribunal", "Tribunal"),
+    ]
+
+
+    name = models.CharField(max_length=1024, blank=True, null=True, default='')
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, null=True)
+    dob = models.DateField("Date of Birth", blank=True, null=True)
+    contact_number = models.CharField(max_length=20, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    court_level = models.CharField(max_length=32, choices=COURT_LEVEL_CHOICES)
+    court_name = models.CharField(max_length=255)
+    bar_id = models.CharField("Bar Council ID", max_length=100, unique=True)
+    date_of_appointment = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = "Judge"
+        verbose_name_plural = "Judges"
+        ordering = ["court_level", "name"]
+
+    def __str__(self):
+        return f"Hon. {self.name} - {self.court_name}"
