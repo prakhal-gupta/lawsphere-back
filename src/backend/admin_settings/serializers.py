@@ -181,29 +181,11 @@ class CourtSerializer(ModelSerializer):
     state_data = serializers.SerializerMethodField(required=False)
     city_data = serializers.SerializerMethodField(required=False)
     manager_data = serializers.SerializerMethodField(required=False)
-    category_data = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Court
         fields = '__all__'
 
-    def create(self, validated_data):
-        instance = Court.objects.create(**validated_data)
-        instance.save()
-        if instance.email:
-            template = "user_created.html"
-            subject = "Court Created"
-            data = {
-                'data': {'name': instance.name},
-            }
-            send_from_template(instance.email, subject, template, data)
-        return instance
-
-    def update(self, instance, validated_data):
-        Court.objects.filter(id=instance.id).update(**validated_data)
-        instance = Court.objects.filter(id=instance.id).first()
-        instance.save()
-        return Court.objects.filter(id=instance.id).first()
 
     @staticmethod
     def get_country_data(obj):
@@ -221,9 +203,6 @@ class CourtSerializer(ModelSerializer):
     def get_manager_data(obj):
         return UserBasicDataSerializer(obj.manager).data if obj.manager else None
 
-    @staticmethod
-    def get_category_data(obj):
-        return DynamicSettingsDataSerializer(obj.category).data if obj.category else None
 
 
 class EmployeePermissionsSerializer(ModelSerializer):
