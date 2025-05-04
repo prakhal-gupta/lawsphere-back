@@ -81,8 +81,6 @@ def auth_login(request):
         if user.check_password(password):
             if not user.is_active:
                 return response.BadRequest({'detail': 'User account is disabled.'})
-            if not user.is_superuser:
-                return response.BadRequest({'detail': 'You are not an admin user!'})
             auth_data = generate_auth_data(request, user)
             return response.Ok(auth_data)
         else:
