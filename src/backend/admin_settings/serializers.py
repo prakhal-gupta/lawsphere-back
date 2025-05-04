@@ -182,16 +182,13 @@ class CourtSerializer(ModelSerializer):
     city_data = serializers.SerializerMethodField(required=False)
     manager_data = serializers.SerializerMethodField(required=False)
     category_data = serializers.SerializerMethodField(required=False)
-    documents = DocumentsSerializer(required=False, many=True)
 
     class Meta:
         model = Court
         fields = '__all__'
 
     def create(self, validated_data):
-        documents = create_update_manytomany_record(validated_data.pop("documents", []), Documents)
         instance = Court.objects.create(**validated_data)
-        instance.documents.set(documents)
         instance.save()
         if instance.email:
             template = "user_created.html"
@@ -203,10 +200,8 @@ class CourtSerializer(ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        documents = create_update_manytomany_record(validated_data.pop("documents", []), Documents, instance.documents)
         Court.objects.filter(id=instance.id).update(**validated_data)
         instance = Court.objects.filter(id=instance.id).first()
-        instance.documents.set(documents)
         instance.save()
         return Court.objects.filter(id=instance.id).first()
 

@@ -1,0 +1,182 @@
+[
+  {
+    "model": "admin_settings.court",
+    "pk": 1,
+    "fields": {
+      "name": "Supreme Court Complex",
+      "mobile": "9876543210",
+      "address": "1 Constitution Avenue, New Delhi",
+      "country": 1,
+      "state": 8,
+      "city": 1,
+      "category": "supreme_court",
+      "manager": 2,
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 2,
+    "fields": {
+      "name": "Delhi High Court",
+      "mobile": "9876500001",
+      "address": "Sher Shah Road, New Delhi",
+      "country": 1,
+      "state": 8,
+      "city": 1,
+      "category": "high_court",
+      "manager": 3,
+      "is_active": true,
+      "created_at": "2025-05-01T10:01:00Z",
+      "modified_at": "2025-05-01T10:01:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 3,
+    "fields": {
+      "name": "Mumbai District Court",
+      "mobile": "9876500002",
+      "address": "Fort, Mumbai",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "district_court",
+      "manager": 4,
+      "is_active": true,
+      "created_at": "2025-05-01T10:02:00Z",
+      "modified_at": "2025-05-01T10:02:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 4,
+    "fields": {
+      "name": "Bangalore Family Court",
+      "mobile": "9876500003",
+      "address": "Kaveri Bhavan, Bangalore",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "family_court",
+      "manager": 5,
+      "is_active": true,
+      "created_at": "2025-05-01T10:03:00Z",
+      "modified_at": "2025-05-01T10:03:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 5,
+    "fields": {
+      "name": "Chennai Consumer Court",
+      "mobile": "9876500004",
+      "address": "Egmore, Chennai",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "consumer_court",
+      "manager": 6,
+      "is_active": true,
+      "created_at": "2025-05-01T10:04:00Z",
+      "modified_at": "2025-05-01T10:04:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 6,
+    "fields": {
+      "name": "Hyderabad Labour Court",
+      "mobile": "9876500005",
+      "address": "Labour Complex, Hyderabad",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "labour_court",
+      "manager": 7,
+      "is_active": true,
+      "created_at": "2025-05-01T10:05:00Z",
+      "modified_at": "2025-05-01T10:05:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 7,
+    "fields": {
+      "name": "Ahmedabad Civil Court",
+      "mobile": "9876500006",
+      "address": "Gulbai Tekra, Ahmedabad",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "civil_court",
+      "manager": 8,
+      "is_active": true,
+      "created_at": "2025-05-01T10:06:00Z",
+      "modified_at": "2025-05-01T10:06:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 8,
+    "fields": {
+      "name": "Pune Criminal Court",
+      "mobile": "9876500007",
+      "address": "Shivajinagar, Pune",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "criminal_court",
+      "manager": 9,
+      "is_active": true,
+      "created_at": "2025-05-01T10:07:00Z",
+      "modified_at": "2025-05-01T10:07:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 9,
+    "fields": {
+      "name": "Kolkata Tax Court",
+      "mobile": "9876500008",
+      "address": "Salt Lake, Kolkata",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "tax_court",
+      "manager": 10,
+      "is_active": true,
+      "created_at": "2025-05-01T10:08:00Z",
+      "modified_at": "2025-05-01T10:08:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.court",
+    "pk": 10,
+    "fields": {
+      "name": "Bhopal Tribunal Court",
+      "mobile": "9876500009",
+      "address": "Old Secretariat, Bhopal",
+      "country": 1,
+      "state": 34,
+      "city": 177,
+      "category": "tribunal",
+      "manager": 11,
+      "is_active": true,
+      "created_at": "2025-05-01T10:09:00Z",
+      "modified_at": "2025-05-01T10:09:00Z",
+      "created_by": null
+    }
+  }
+]
