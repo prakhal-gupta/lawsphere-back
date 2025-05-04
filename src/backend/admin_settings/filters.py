@@ -1,6 +1,7 @@
 import django_filters
 from django.db.models import Q
-from .models import DynamicSettings, Country, State, City, Court, Employee, DescriptionTemplate
+from .models import DynamicSettings, Country, State, City, Court, Employee, DescriptionTemplate, Judge
+
 
 class DynamicSettingsFilter(django_filters.FilterSet):
     parents = django_filters.CharFilter(method='parents_filter', lookup_expr='exact')
@@ -55,7 +56,6 @@ class CourtFilter(django_filters.FilterSet):
             'id': ['exact'],
             'name': ['exact', 'icontains'],
             'address': ['exact', 'icontains'],
-            'email': ['exact', 'icontains'],
             'mobile': ['exact', 'icontains'],
             'country': ['exact'],
             'state': ['exact'],
@@ -116,4 +116,23 @@ class DescriptionTemplateFilter(django_filters.FilterSet):
             'id': ['exact'],
             'service': ['exact'],
             'description': ['exact', 'icontains'],
+        }
+
+
+class JudgeFilter(django_filters.FilterSet):
+    class Meta:
+        model = Judge
+        fields = {
+            'id': ['exact'],
+            'name': ['exact', 'icontains'],
+            'gender': ['exact'],
+            'dob': ['exact', 'lte', 'gte'],
+            'contact_number': ['exact', 'icontains'],
+            'email': ['exact', 'icontains'],
+            'court': ['exact'],
+            'bar_id': ['exact', 'icontains'],
+            'date_of_appointment': ['exact', 'lte', 'gte'],
+            'specialization': ['exact', 'icontains'],
+            'pending_cases': ['exact', 'lt', 'gt'],
+            'is_active': ['exact'],
         }

@@ -9,12 +9,12 @@ from rest_framework.parsers import MultiPartParser, JSONParser
 from django.core.files.base import ContentFile
 from .constants import SETTINGS_CONSTANT, CORE_SERVICES, NON_CORE_SERVICES
 from .filters import DynamicSettingsFilter, CountryFilter, StateFilter, CityFilter, CourtFilter, EmployeeFilter, \
-    DescriptionTemplateFilter
-from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, DescriptionTemplate
+    DescriptionTemplateFilter, JudgeFilter
+from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, DescriptionTemplate, Judge
 from .permissions import DynamicSettingsPermissions, UploadedDocumentPermissions
 from .serializers import DynamicSettingsSerializer, CountrySerializer, StateSerializer, CitySerializer, CourtSerializer, \
     UploadedDocumentSerializer, DescriptionTemplateSerializer, CourtBasicDataSerializer, \
-    CourtDataSerializer, DeleteEmployeeSerializer, EmployeeSerializer
+    CourtDataSerializer, DeleteEmployeeSerializer, EmployeeSerializer, JudgeSerializer
 from .services import dropdown_tree, create_new_user
 from ..accounts.filters import UserBasicFilter
 from ..accounts.serializers import UserSerializer
@@ -504,3 +504,36 @@ class DynamicSettingsViewSet(ModelViewSet):
             return response.Ok(DescriptionTemplateSerializer(queryset, many=True).data)
         else:
             return response.Ok(create_update_record(request, DescriptionTemplateSerializer, DescriptionTemplate))
+
+    @swagger_auto_schema(
+        method="post",
+        operation_summary='Add Judge.',
+        operation_description='Add Judge.',
+        request_body=JudgeSerializer,
+        response=JudgeSerializer
+    )
+    @swagger_auto_schema(
+        method="put",
+        operation_summary='Update Judge.',
+        operation_description='.',
+        request_body=JudgeSerializer,
+        response=JudgeSerializer
+    )
+    @swagger_auto_schema(
+        method="get",
+        operation_summary='List of Judge',
+        operation_description='',
+        response=JudgeSerializer
+    )
+    @action(methods=['GET', 'POST', 'PUT'], detail=False, queryset=Judge, filterset_class=JudgeFilter)
+    def judge(self, request):
+        if request.method == "GET":
+            queryset = Judge.objects.filter(is_active=True)
+            self.filterset_class = JudgeFilter
+            queryset = self.filter_queryset(queryset)
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                return self.get_paginated_response(JudgeSerializer(page, many=True).data)
+            return response.Ok(JudgeSerializer(queryset, many=True).data)
+        else:
+            return response.Ok(create_update_record(request, JudgeSerializer, Judge))
