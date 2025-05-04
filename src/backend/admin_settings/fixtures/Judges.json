@@ -1,0 +1,222 @@
+[
+  {
+    "model": "admin_settings.judge",
+    "pk": 1,
+    "fields": {
+      "user": 15,
+      "name": "Justice A. Sharma",
+      "gender": "male",
+      "dob": "1965-06-15",
+      "contact_number": "9123456780",
+      "email": "a.sharma@example.com",
+      "court": 1,
+      "bar_id": "BAR00001",
+      "date_of_appointment": "2000-03-01",
+      "specialization": "Civil",
+      "pending_cases": 12,
+      "past_cases": ["Tax", "Customs Valuation", "Property Disputes", "Contract Disputes"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 2,
+    "fields": {
+      "user": 16,
+      "name": "Justice B. Iyer",
+      "gender": "male",
+      "dob": "1962-10-10",
+      "contact_number": "9123456781",
+      "email": "b.iyer@example.com",
+      "court": 2,
+      "bar_id": "BAR00002",
+      "date_of_appointment": "1998-09-12",
+      "specialization": "Constitutional",
+      "pending_cases": 8,
+      "past_cases": ["Election Disputes", "Writ Petitions", "State Law Challenges"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 3,
+    "fields": {
+      "user": 17,
+      "name": "Justice C. Mehta",
+      "gender": "female",
+      "dob": "1970-03-25",
+      "contact_number": "9123456782",
+      "email": "c.mehta@example.com",
+      "court": 3,
+      "bar_id": "BAR00003",
+      "date_of_appointment": "2002-01-20",
+      "specialization": "Criminal",
+      "pending_cases": 15,
+      "past_cases": ["Murder", "Assault", "Narcotics Offenses", "Environmental Crimes"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 4,
+    "fields": {
+      "user": 18,
+      "name": "Justice D. Patel",
+      "gender": "male",
+      "dob": "1968-11-11",
+      "contact_number": "9123456783",
+      "email": "d.patel@example.com",
+      "court": 4,
+      "bar_id": "BAR00004",
+      "date_of_appointment": "2003-04-10",
+      "specialization": "Corporate Law",
+      "pending_cases": 10,
+      "past_cases": ["Insolvency", "Bankruptcy", "Company Law Disputes"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 5,
+    "fields": {
+      "user": 19,
+      "name": "Justice E. Reddy",
+      "gender": "male",
+      "dob": "1960-01-05",
+      "contact_number": "9123456784",
+      "email": "e.reddy@example.com",
+      "court": 5,
+      "bar_id": "BAR00005",
+      "date_of_appointment": "1995-07-15",
+      "specialization": "Tax Law",
+      "pending_cases": 7,
+      "past_cases": ["Income Tax", "Excise Duty", "Customs"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 6,
+    "fields": {
+      "user": 20,
+      "name": "Justice F. Verma",
+      "gender": "female",
+      "dob": "1975-07-21",
+      "contact_number": "9123456785",
+      "email": "f.verma@example.com",
+      "court": 6,
+      "bar_id": "BAR00006",
+      "date_of_appointment": "2005-10-01",
+      "specialization": "Environmental Law",
+      "pending_cases": 9,
+      "past_cases": ["Illegal Mining", "Pollution Cases", "Public Interest Litigations (PIL)"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 7,
+    "fields": {
+      "user": 21,
+      "name": "Justice G. Nanda",
+      "gender": "male",
+      "dob": "1972-02-17",
+      "contact_number": "9123456786",
+      "email": "g.nanda@example.com",
+      "court": 7,
+      "bar_id": "BAR00007",
+      "date_of_appointment": "2001-08-30",
+      "specialization": "Labour Law",
+      "pending_cases": 11,
+      "past_cases": ["Industrial Disputes", "Termination of Service"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 8,
+    "fields": {
+      "user": 22,
+      "name": "Justice H. Khan",
+      "gender": "male",
+      "dob": "1969-09-03",
+      "contact_number": "9123456787",
+      "email": "h.khan@example.com",
+      "court": 8,
+      "bar_id": "BAR00008",
+      "date_of_appointment": "2000-05-14",
+      "specialization": "Family Law",
+      "pending_cases": 13,
+      "past_cases": ["Divorce", "Child Custody", "Adoption"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 9,
+    "fields": {
+      "user": 23,
+      "name": "Justice I. Das",
+      "gender": "female",
+      "dob": "1971-12-11",
+      "contact_number": "9123456788",
+      "email": "i.das@example.com",
+      "court": 9,
+      "bar_id": "BAR00009",
+      "date_of_appointment": "2004-11-11",
+      "specialization": "Civil",
+      "pending_cases": 14,
+      "past_cases": ["Land Disputes", "Construction Disputes", "Right of Way"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  },
+  {
+    "model": "admin_settings.judge",
+    "pk": 10,
+    "fields": {
+      "user": 24,
+      "name": "Justice J. Roy",
+      "gender": "male",
+      "dob": "1966-04-09",
+      "contact_number": "9123456789",
+      "email": "j.roy@example.com",
+      "court": 10,
+      "bar_id": "BAR00010",
+      "date_of_appointment": "1999-06-25",
+      "specialization": "Criminal",
+      "pending_cases": 16,
+      "past_cases": ["Fraud", "Forgery", "Arson"],
+      "is_active": true,
+      "created_at": "2025-05-01T10:00:00Z",
+      "modified_at": "2025-05-01T10:00:00Z",
+      "created_by": null
+    }
+  }
+]
