@@ -181,7 +181,6 @@ class CourtSerializer(ModelSerializer):
     state_data = serializers.SerializerMethodField(required=False)
     city_data = serializers.SerializerMethodField(required=False)
     manager_data = serializers.SerializerMethodField(required=False)
-    category_data = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Court
@@ -204,9 +203,6 @@ class CourtSerializer(ModelSerializer):
     def get_manager_data(obj):
         return UserBasicDataSerializer(obj.manager).data if obj.manager else None
 
-    @staticmethod
-    def get_category_data(obj):
-        return DynamicSettingsDataSerializer(obj.category).data if obj.category else None
 
 
 class EmployeePermissionsSerializer(ModelSerializer):
