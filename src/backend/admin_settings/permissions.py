@@ -61,6 +61,7 @@ class DynamicSettingsPermissions(ResourcePermission):
     reports_perms = IsSuperUser()
     case_perms = IsSuperUser()
     customer_perms = IsSuperUser()
+    judge_perms = IsSuperUser()
 
 
 class UploadedDocumentPermissions(ResourcePermission):

@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from .constants import employee_STATUS, BLOOD_GROUPS, ACTIVE
 from ..base.models import TimeStampedModel, upload_file
 from ..base.validators.form_validations import file_extension_validator
-
+from .constants import COURT_CATEGORY_CHOICES, GENDER_CHOICES
 
 class DynamicSettings(TimeStampedModel):
     name = models.CharField(max_length=1024, blank=True, null=True)
@@ -67,16 +68,13 @@ class Documents(TimeStampedModel):
 
 class Court(TimeStampedModel):
     name = models.CharField(max_length=1024, blank=True, null=True)
-    email = models.CharField(max_length=255, blank=True, null=True)
     mobile = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     country = models.ForeignKey(Country, blank=True, null=True, on_delete=models.PROTECT)
     state = models.ForeignKey(State, blank=True, null=True, on_delete=models.PROTECT)
     city = models.ForeignKey(City, blank=True, null=True, on_delete=models.PROTECT)
-    category = models.ForeignKey(DynamicSettings, blank=True, null=True, on_delete=models.PROTECT)
-    manager = models.ForeignKey(get_user_model(), blank=True, null=True, on_delete=models.PROTECT,
-                                related_name="court_manager")
-    documents = models.ManyToManyField(Documents, blank=True)
+    category = models.CharField(max_length=64, choices=COURT_CATEGORY_CHOICES)
+    manager = models.ForeignKey(get_user_model(), blank=True, null=True, on_delete=models.PROTECT, related_name="court_manager")
     is_active = models.BooleanField(default=True)
 
 
@@ -85,7 +83,6 @@ class EmployeePermissions(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
 
-# designation wise permission/permission sets
 class PermissionSets(TimeStampedModel):
     court = models.ForeignKey(Court, blank=True, null=True, on_delete=models.PROTECT)
     employee = models.ForeignKey('admin_settings.Employee', blank=True, null=True, on_delete=models.PROTECT)
@@ -141,39 +138,18 @@ class DescriptionTemplate(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
 
-from django.db import models
-
-class Judge(models.Model):
-    GENDER_CHOICES = [
-        ("male", "Male"),
-        ("female", "Female"),
-        ("other", "Other"),
-    ]
-
-    COURT_LEVEL_CHOICES = [
-        ("district", "District Court"),
-        ("sessions", "Sessions Court"),
-        ("high", "High Court"),
-        ("supreme", "Supreme Court"),
-        ("tribunal", "Tribunal"),
-    ]
-
-
+class Judge(TimeStampedModel):
+    user = models.ForeignKey(get_user_model(), blank=True, null=True, on_delete=models.PROTECT,
+                             related_name="judge_user")
     name = models.CharField(max_length=1024, blank=True, null=True, default='')
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, null=True)
     dob = models.DateField("Date of Birth", blank=True, null=True)
     contact_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    court_level = models.CharField(max_length=32, choices=COURT_LEVEL_CHOICES)
-    court_name = models.CharField(max_length=255)
+    court = models.ForeignKey(Court, blank=True, null=True, on_delete=models.PROTECT)
     bar_id = models.CharField("Bar Council ID", max_length=100, unique=True)
     date_of_appointment = models.DateField(blank=True, null=True)
+    specialization = models.CharField(max_length=128, blank=True, null=True)
+    pending_cases = models.PositiveIntegerField(default=0)
+    past_cases = ArrayField(models.CharField(max_length=128), blank=True, default=list)
     is_active = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = "Judge"
-        verbose_name_plural = "Judges"
-        ordering = ["court_level", "name"]
-
-    def __str__(self):
-        return f"Hon. {self.name} - {self.court_name}"

@@ -2,7 +2,7 @@ from django.db.models import Q
 from rest_framework import serializers
 from .constants import CORE_SERVICES
 from .models import DynamicSettings, Country, State, City, Court, Employee, UploadedDocument, CsvPdfReports, \
-    DescriptionTemplate, EmployeePermissions, Documents
+    DescriptionTemplate, EmployeePermissions, Documents, Judge
 from .services import delete_child, get_presigned_url, employee_photo_path, create_update_s3_record
 from ..accounts.serializers import UserBasicDataSerializer
 from ..base.serializers import ModelSerializer
@@ -137,15 +137,10 @@ class DynamicSettingsValueSerializer(ModelSerializer):
 
 
 class CourtBasicDataSerializer(ModelSerializer):
-    category_data = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Court
         fields = '__all__'
-
-    @staticmethod
-    def get_category_data(obj):
-        return DynamicSettingsDataSerializer(obj.category).data if obj.category else None
 
 
 class CourtDataSerializer(ModelSerializer):
@@ -153,7 +148,6 @@ class CourtDataSerializer(ModelSerializer):
     state_data = serializers.SerializerMethodField(required=False)
     city_data = serializers.SerializerMethodField(required=False)
     manager_data = serializers.SerializerMethodField(required=False)
-    category_data = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Court
@@ -174,10 +168,6 @@ class CourtDataSerializer(ModelSerializer):
     @staticmethod
     def get_manager_data(obj):
         return UserBasicDataSerializer(obj.manager).data if obj.manager else None
-
-    @staticmethod
-    def get_category_data(obj):
-        return DynamicSettingsDataSerializer(obj.category).data if obj.category else None
 
 
 class DocumentsSerializer(ModelSerializer):
@@ -373,3 +363,34 @@ class DescriptionTemplateSerializer(ModelSerializer):
     @staticmethod
     def get_is_core(obj):
         return obj.service.name == CORE_SERVICES
+
+
+class JudgeSerializer(ModelSerializer):
+    user_data = serializers.SerializerMethodField(required=False)
+    court_data = serializers.SerializerMethodField(required=False)
+
+    class Meta:
+        model = Judge
+        fields = '__all__'
+
+    def validate(self, data):
+        court = data.get('court', None)
+        user = data.get('user', None)
+        name = data.get('name', None)
+        queryset = Judge.objects.filter(court=court, is_active=True)
+        queryset = queryset.filter(Q(user=user) | Q(name=name))
+        if self.instance:
+            queryset = queryset.exclude(id=self.instance.id)
+        if queryset.exists():
+            raise serializers.ValidationError({"detail": "This Judge is already added with this Court"})
+        return data
+
+    @staticmethod
+    def get_user_data(obj):
+        from ..employee.serializers import UserEmployeeSerializer
+        return UserEmployeeSerializer(obj.user).data if obj.user else None
+
+    @staticmethod
+    def get_court_data(obj):
+        return CourtBasicDataSerializer(obj.court).data if obj.court else None
+

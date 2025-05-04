@@ -113,3 +113,22 @@ BLOOD_GROUPS = (
     ('O+', 'O+'),
     ('O-', 'O-'),
 )
+
+COURT_CATEGORY_CHOICES = [
+    ("supreme_court", "Supreme Court"),
+    ("high_court", "High Court"),
+    ("district_court", "District Court"),
+    ("family_court", "Family Court"),
+    ("consumer_court", "Consumer Court"),
+    ("labour_court", "Labour Court"),
+    ("civil_court", "Civil Court"),
+    ("criminal_court", "Criminal Court"),
+    ("tax_court", "Tax Court"),
+    ("tribunal", "Tribunal"),
+]
+
+GENDER_CHOICES = [
+    ("male", "Male"),
+    ("female", "Female"),
+    ("other", "Other"),
+]
