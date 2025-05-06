@@ -23,6 +23,8 @@ class CustomerFilter(django_filters.FilterSet):
         }
 
 class CaseFilter(django_filters.FilterSet):
+    start_date = django_filters.CharFilter(field_name='modified_at__date', lookup_expr='gte')
+    end_date = django_filters.CharFilter(field_name='modified_at__date', lookup_expr='lte')
 
     class Meta:
         model = Case
