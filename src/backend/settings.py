@@ -28,7 +28,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '13.53.138.177', 'lawsphere-front.vercel.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'lawsphere-back.onrender.com', 'lawsphere-front.vercel.app']
 
 
 # Application definition
