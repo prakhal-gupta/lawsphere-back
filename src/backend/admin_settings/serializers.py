@@ -348,15 +348,23 @@ class JudgeSerializer(ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        court = data.get('court', None)
-        user = data.get('user', None)
-        name = data.get('name', None)
+        court = data.get('court', self.instance.court if self.instance else None)
+        user = data.get('user', self.instance.user if self.instance else None)
+        name = data.get('name', self.instance.name if self.instance else None)
+        bar_id = data.get('bar_id', self.instance.bar_id if self.instance else None)
         queryset = Judge.objects.filter(court=court, is_active=True)
         queryset = queryset.filter(Q(user=user) | Q(name=name))
         if self.instance:
             queryset = queryset.exclude(id=self.instance.id)
         if queryset.exists():
             raise serializers.ValidationError({"detail": "This Judge is already added with this Court"})
+        if bar_id:
+            bar_id_qs = Judge.objects.filter(bar_id=bar_id)
+            if self.instance:
+                bar_id_qs = bar_id_qs.exclude(id=self.instance.id)
+            if bar_id_qs.exists():
+                raise serializers.ValidationError({"bar_id": "A judge with this Bar ID already exists."})
+
         return data
 
     @staticmethod

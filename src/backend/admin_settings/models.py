@@ -147,7 +147,7 @@ class Judge(TimeStampedModel):
     contact_number = models.CharField(max_length=20, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     court = models.ForeignKey(Court, blank=True, null=True, on_delete=models.PROTECT)
-    bar_id = models.CharField("Bar Council ID", max_length=100, unique=True)
+    bar_id = models.CharField("Bar Council ID", max_length=100, blank=True, null=True, unique=True)
     date_of_appointment = models.DateField(blank=True, null=True)
     specialization = models.CharField(max_length=128, blank=True, null=True)
     pending_cases = models.PositiveIntegerField(default=0)
